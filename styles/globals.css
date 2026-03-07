@@ -1,0 +1,15 @@
+/* Replaced Poppins with Space Grotesk */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+body,html{
+    /* Changed background to light pink */
+    background-color: #fce7f3; 
+    overflow-x: hidden;
+    /* Applied new font globally */
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

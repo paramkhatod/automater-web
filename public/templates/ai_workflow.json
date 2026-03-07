@@ -1,0 +1,187 @@
+{
+  "name": "AI WorkFlow",
+  "nodes": [
+    {
+      "id": "node_4",
+      "type": "agent",
+      "position": {
+        "y": -29.88559588628012,
+        "x": 491.0427841526342
+      },
+      "selected": false,
+      "measured": {
+        "height": 150,
+        "width": 207
+      },
+      "dragging": false,
+      "data": {
+        "agentType": "general",
+        "inputMapping": [],
+        "instructions": "Analyze the following list of emails:\n{{emails}}\n\nReturn a JSON ARRAY where each item corresponds to an email in the input list, in the exact same order.\n\nFor each email, extract the following fields:\n1. \"summary\": A short title for the calendar event (e.g., \"Meeting with John\", \"Flight to NYC\").\n2. \"date\": The specific date and time mentioned (e.g., \"2024-10-25T14:00:00\" or \"Tomorrow at 2pm\"). If NO date or task is mentioned, strict output \"None\".\n3. \"description\": A brief context from the email body.\n\nExample Output:\n[\n  { \"summary\": \"Team Sync\", \"date\": \"2024-11-05T10:00:00\", \"description\": \"Weekly sync regarding Q4 goals.\" },\n  { \"summary\": \"No Event\", \"date\": \"None\", \"description\": \"Just a promotional email.\" }\n]\n\nIMPORTANT: Do not output markdown or explanation. Just the raw JSON array.\n",
+        "systemPrompt": "You are an intelligent personal assistant. Your goal is to analyze emails, extract potential calendar events (like meetings, flights, deadlines), and output strict JSON arrays.\n",
+        "maxTokens": 1000,
+        "outputMapping": [],
+        "structure": {
+          "left": [
+            "input"
+          ],
+          "right": [
+            "output"
+          ],
+          "bottom": [
+            "data",
+            "tool"
+          ]
+        },
+        "apiKey": "",
+        "dataSources": [],
+        "model": "openai/gpt-oss-120b:free",
+        "temperature": 0.7
+      }
+    },
+    {
+      "selected": false,
+      "id": "node_5",
+      "data": {
+        "continueOnFail": false,
+        "mappings": [
+          {
+            "to": "",
+            "from": ""
+          }
+        ],
+        "retryOnFail": false,
+        "operation": "readEmails",
+        "credentials": "default",
+        "resource": "",
+        "filters": [
+          {
+            "operator": "equals",
+            "field": "",
+            "value": ""
+          }
+        ],
+        "integrationType": "gmail",
+        "waitBetweenTries": 1000,
+        "options": {},
+        "maxTries": 3
+      },
+      "type": "integration",
+      "position": {
+        "y": -3.6754318730576827,
+        "x": 320.6845949561791
+      },
+      "dragging": false,
+      "measured": {
+        "width": 100,
+        "height": 128
+      }
+    },
+    {
+      "data": {
+        "triggerType": "manual"
+      },
+      "id": "node_6",
+      "type": "trigger",
+      "selected": false,
+      "measured": {
+        "height": 128,
+        "width": 100
+      },
+      "position": {
+        "y": -2.980787170410167,
+        "x": 168.61557627532733
+      },
+      "dragging": false
+    },
+    {
+      "position": {
+        "x": 765.1875790077008,
+        "y": -5.603145480064626
+      },
+      "measured": {
+        "height": 128,
+        "width": 100
+      },
+      "type": "integration",
+      "id": "node_7",
+      "data": {
+        "mappings": [
+          {
+            "from": "",
+            "to": ""
+          }
+        ],
+        "credentials": "default",
+        "integrationType": "sheets",
+        "filters": [
+          {
+            "value": "",
+            "operator": "equals",
+            "field": ""
+          }
+        ],
+        "options": {},
+        "resource": "",
+        "maxTries": 3,
+        "operation": "writeRange",
+        "range": "Sheet1",
+        "waitBetweenTries": 1000,
+        "values": "[\"{{ai_output.summary}}\", \"{{ai_output.date}}\",\"{{ai_output.description}}\"]",
+        "retryOnFail": false,
+        "continueOnFail": false
+      },
+      "selected": true,
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "node_5",
+      "style": {
+        "strokeDasharray": "5,5",
+        "stroke": "#a9a9a9",
+        "strokeWidth": 1.5
+      },
+      "markerEnd": {
+        "type": "arrow",
+        "color": "#a9a9a9"
+      },
+      "animated": true,
+      "target": "node_4",
+      "id": "xy-edge__node_5-node_4input",
+      "targetHandle": "input"
+    },
+    {
+      "source": "node_6",
+      "style": {
+        "stroke": "#a9a9a9",
+        "strokeDasharray": "5,5",
+        "strokeWidth": 1.5
+      },
+      "animated": true,
+      "markerEnd": {
+        "color": "#a9a9a9",
+        "type": "arrow"
+      },
+      "target": "node_5",
+      "id": "xy-edge__node_6-node_5"
+    },
+    {
+      "animated": true,
+      "sourceHandle": "output",
+      "target": "node_7",
+      "id": "xy-edge__node_4output-node_7",
+      "source": "node_4",
+      "markerEnd": {
+        "color": "#a9a9a9",
+        "type": "arrow"
+      },
+      "style": {
+        "strokeDasharray": "5,5",
+        "strokeWidth": 1.5,
+        "stroke": "#a9a9a9"
+      }
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "name": "Unlimited Email",
+  "nodes": [
+    {
+      "selected": false,
+      "measured": {
+        "width": 100,
+        "height": 128
+      },
+      "position": {
+        "x": 521.3474564522827,
+        "y": 138.63081193412475
+      },
+      "data": {
+        "integrationType": "sheets",
+        "operation": "readRange",
+        "resource": "",
+        "credentials": "default",
+        "mappings": [
+          {
+            "from": "",
+            "to": ""
+          }
+        ],
+        "filters": [
+          {
+            "field": "",
+            "value": "",
+            "operator": "equals"
+          }
+        ],
+        "options": {},
+        "continueOnFail": false,
+        "retryOnFail": false,
+        "maxTries": 3,
+        "waitBetweenTries": 1000,
+        "range": "Sheet2"
+      },
+      "id": "node_2",
+      "dragging": false,
+      "type": "integration"
+    },
+    {
+      "selected": false,
+      "measured": {
+        "width": 100,
+        "height": 128
+      },
+      "dragging": false,
+      "position": {
+        "x": 347.50661792304135,
+        "y": 137.4973560646316
+      },
+      "type": "trigger",
+      "id": "node_5",
+      "data": {
+        "triggerType": "manual"
+      }
+    },
+    {
+      "id": "node_6",
+      "position": {
+        "x": 681.3937135570794,
+        "y": 138.19046644104384
+      },
+      "dragging": false,
+      "type": "integration",
+      "selected": true,
+      "measured": {
+        "width": 100,
+        "height": 128
+      },
+      "data": {
+        "credentials": "default",
+        "waitBetweenTries": 1000,
+        "resource": "",
+        "subject": "Weekly report",
+        "retryOnFail": false,
+        "body": "[\"{{ai_output.body}}\"]",
+        "continueOnFail": false,
+        "filters": [
+          {
+            "operator": "equals",
+            "field": "",
+            "value": ""
+          }
+        ],
+        "options": {},
+        "to": "{{B}}",
+        "operation": "sendEmail",
+        "mappings": [
+          {
+            "from": "",
+            "to": ""
+          }
+        ],
+        "integrationType": "gmail",
+        "maxTries": 3
+      }
+    }
+  ],
+  "edges": [
+    {
+      "target": "node_2",
+      "source": "node_5",
+      "markerEnd": {
+        "color": "#a9a9a9",
+        "type": "arrow"
+      },
+      "id": "xy-edge__node_5-node_2",
+      "animated": true,
+      "style": {
+        "stroke": "#a9a9a9",
+        "strokeDasharray": "5,5",
+        "strokeWidth": 1.5
+      }
+    },
+    {
+      "style": {
+        "stroke": "#a9a9a9",
+        "strokeWidth": 1.5,
+        "strokeDasharray": "5,5"
+      },
+      "animated": true,
+      "markerEnd": {
+        "type": "arrow",
+        "color": "#a9a9a9"
+      },
+      "source": "node_2",
+      "target": "node_6",
+      "id": "xy-edge__node_2-node_6"
+    }
+  ]
+}
