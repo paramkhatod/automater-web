@@ -4,28 +4,51 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { db } from '@/lib/firebase';
 import { ref, get } from 'firebase/database';
-import { Calendar, Tag, ChevronLeft } from 'lucide-react';
+import { Calendar, Tag, ChevronLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function BlogPost() {
-    const { id } = useParams(); // Grabs the ID from the URL
+    // 1. FIX: Safe destructuring to prevent 'null' error during build
+    const params = useParams();
+    const id = params?.id; 
+
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // 2. FIX: Don't attempt fetch if id is not yet available
+        if (!id) return;
+
         const fetchBlog = async () => {
-            const blogRef = ref(db, `blogs/${id}`);
-            const snapshot = await get(blogRef);
-            if (snapshot.exists()) {
-                setBlog(snapshot.val());
+            try {
+                const blogRef = ref(db, `blogs/${id}`);
+                const snapshot = await get(blogRef);
+                if (snapshot.exists()) {
+                    setBlog(snapshot.val());
+                }
+            } catch (error) {
+                console.error("Firebase Fetch Error:", error);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
         fetchBlog();
     }, [id]);
 
-    if (loading) return <div className="h-screen flex items-center justify-center bg-rose-50 text-pink-600 font-orbitron animate-pulse">Decrypting Intel...</div>;
-    if (!blog) return <div className="h-screen flex items-center justify-center">Post not found.</div>;
+    // 3. FIX: Enhanced loading screen with an Elite feel
+    if (loading) return (
+        <div className="h-screen flex flex-col items-center justify-center bg-rose-50 text-pink-600 font-orbitron">
+            <Loader2 className="animate-spin mb-4" size={40} />
+            <p className="animate-pulse tracking-[0.3em] uppercase text-xs font-black">Decrypting Intel...</p>
+        </div>
+    );
+
+    if (!blog) return (
+        <div className="h-screen flex flex-col items-center justify-center bg-rose-50">
+            <h2 className="font-orbitron font-black text-2xl text-gray-900 uppercase">Intelligence Not Found</h2>
+            <Link href="/blogs" className="mt-4 text-pink-600 font-bold underline">Return to Archive</Link>
+        </div>
+    );
 
     return (
         <main className="min-h-screen bg-white text-gray-900 pb-20">
@@ -47,14 +70,16 @@ export default function BlogPost() {
                 <div className="bg-white rounded-[40px] p-10 md:p-16 shadow-2xl shadow-rose-200/50 border border-rose-50">
                     <div className="flex gap-6 mb-10 opacity-50 text-xs font-bold uppercase tracking-widest">
                         <div className="flex items-center gap-2"><Calendar size={14}/> {blog.date}</div>
-                        <div className="flex items-center gap-2"><Tag size={14}/> ID: {id.slice(0, 8)}</div>
+                        {/* 4. FIX: Added safe check for id before slicing */}
+                        <div className="flex items-center gap-2">
+                            <Tag size={14}/> ID: {id ? id.slice(0, 8) : "N/A"}
+                        </div>
                     </div>
                     
                     <article className="prose prose-rose max-w-none text-gray-700 text-lg leading-relaxed italic">
                         {blog.desc}
-                        {/* If you have a 'content' field in Firebase, render it here */}
                         <div className="mt-10 not-italic font-medium text-gray-900">
-                            {blog.content || "Full intelligence report pending..."}
+                            {blog.fullContent || blog.content || "Full intelligence report pending..."}
                         </div>
                     </article>
                 </div>
