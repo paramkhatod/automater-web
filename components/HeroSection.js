@@ -177,7 +177,7 @@ function HeroSection() {
                     </div>
                     
                     <div className="hero-button mt-10 flex">
-                        <a href="https://automater-dev.netlify.app/" target="_blank" rel="noopener noreferrer">
+                        <a href="https://dev-automater.vercel.app/" target="_blank" rel="noopener noreferrer">
                             <button ref={getStartedBtnRef} className="bg-btnDark text-white w-44 mx-0 mr-4 h-16 font-medium rounded-lg hover:shadow-xl transition-all">Get started</button>
                         </a>
                         <button ref={watchVideoBtnRef} onClick={() => window.open('/AutoMater.wmv', '_blank')}
