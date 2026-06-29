@@ -99,7 +99,7 @@ function Features() {
                             </div>
 
                             <div className="pt-10">
-                                <a href="https://automater-dev.netlify.app/" target="_blank" rel="noopener noreferrer">
+                                <a href="https://dev-automater.vercel.app/" target="_blank" rel="noopener noreferrer">
                                     <button className="bg-gray-900 group-hover:bg-pink-600 text-white w-full h-16 font-black uppercase text-sm tracking-[0.2em] rounded-2xl hover:shadow-2xl hover:shadow-pink-500/40 transition-all duration-300 active:scale-95">
                                         Launch Interface
                                     </button>
