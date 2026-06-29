@@ -76,7 +76,7 @@ function Navbar() {
 
                 {/* Desktop "Get Started" Button */}
                 <div ref={getStartedBtnRef}  className="hidden xl:block">
-                <a href="https://automater-dev.netlify.app/" target="_blank" rel="noopener noreferrer">
+                <a href="https://dev-automater.vercel.app/" target="_blank" rel="noopener noreferrer">
                     <button href="https://automater-dev.netlify.app/" className={`bg-btnDark text-white w-44 font-medium rounded-lg hover:shadow-xl transition-all duration-300 ${
                         isScrolled ? 'h-14' : 'h-14' // This also uses the 'isScrolled' variable
                         }`}>
